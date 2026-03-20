@@ -14,18 +14,17 @@
 
           <!-- Imagen -->
           <div class="card-image-wrapper">
-            <img [src]="property.foto" class="card-image" alt="Imagen de propiedad" />
+            <img [src]="property.image_url || 'https://via.placeholder.com/400x300'" class="card-image" alt="Imagen de propiedad" />
             <div class="card-image-overlay"></div>
 
             <!-- Badge estado -->
             <div class="card-badge"
               [ngClass]="{
-                'badge-disponible': property.estado === 'DISPONIBLE',
-                'badge-vendido':    property.estado === 'VENDIDO',
-                'badge-proceso':    property.estado === 'EN PROCESO',
-                'badge-rentado':    property.estado === 'RENTADO'
+                'badge-disponible': property.status === 'available',
+                'badge-vendido':    property.status === 'sold',
+                'badge-rentado':    property.status === 'rented'
               }">
-              {{ property.estado }}
+              {{ getStatusLabel(property.status) }}
             </div>
 
             <!-- Ubicación -->
@@ -33,14 +32,14 @@
               <svg xmlns="http://www.w3.org/2000/svg" class="location-icon" viewBox="0 0 24 24" fill="currentColor">
                 <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-2.083 3.218-4.402 3.218-6.853 0-4.139-3.36-7.5-7.5-7.5s-7.5 3.361-7.5 7.5c0 2.45 1.274 4.77 3.218 6.853a19.58 19.58 0 002.683 2.282 16.975 16.975 0 001.144.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
               </svg>
-              <span>{{ property.ubicacion || 'México' }}</span>
+              <span>{{ property.city || 'México' }}</span>
             </div>
           </div>
 
           <!-- Body -->
           <div class="card-body">
-            <h3 class="card-title">{{ property.titulo }}</h3>
-            <p class="card-price">{{ property.precio }}</p>
+            <h3 class="card-title">{{ property.title }}</h3>
+            <p class="card-price">${{ property.price | number: '1.0-0' }}</p>
 
             <!-- Stats -->
             <div class="card-stats">
@@ -52,7 +51,7 @@
                   </svg>
                 </span>
                 <div class="stat-info">
-                  <span class="stat-value">{{ property.detalles?.recamaras ?? 0 }}</span>
+                  <span class="stat-value">{{ property.bedrooms ?? 0 }}</span>
                   <span class="stat-label">Rec.</span>
                 </div>
               </div>
@@ -66,7 +65,7 @@
                   </svg>
                 </span>
                 <div class="stat-info">
-                  <span class="stat-value">{{ property.detalles?.banos ?? 0 }}</span>
+                  <span class="stat-value">{{ property.bathrooms ?? 0 }}</span>
                   <span class="stat-label">Baños</span>
                 </div>
               </div>
@@ -80,7 +79,7 @@
                   </svg>
                 </span>
                 <div class="stat-info">
-                  <span class="stat-value">{{ property.detalles?.superficie ?? '0m2' }}</span>
+                  <span class="stat-value">{{ property.square_meters ?? 0 }}m²</span>
                   <span class="stat-label">Área</span>
                 </div>
               </div>
